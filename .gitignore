@@ -1,6 +1,19 @@
-# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
+# Build Folders
 bin
 obj
 
+# settings
+*.suo
+
+# NuGet
+/packages
+
 # mstest test results
 TestResults
+
+# JetBrains products
+_ReSharper*
+_TeamCity*
+
+# Project Specific
+Build.Security.Certificate.Tests/Output/

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Setup" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="Build.Security.Certificate.AuthenticodeSignFile" AssemblyFile="$(TaskAssemblyName)" />
+
+  <PropertyGroup>
+    <OutputDirectory>..\Output</OutputDirectory>
+    <OriginalsDirectory>..\Originals</OriginalsDirectory>
+    <ReferenceFile>$(OriginalsDirectory)\Sample.dll</ReferenceFile>
+    <BuildConfiguration Condition="$(BuildConfiguration) == ''">Debug</BuildConfiguration>
+    <TaskAssemblyName>..\..\Build.Security.Certificate\bin\$(BuildConfiguration)\Build.Security.Certificate.dll</TaskAssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CurrentUserMy>$(OutputDirectory)\CurrentUserMy.dll</CurrentUserMy>
+    <CurrentUserTrustedPublisher>$(OutputDirectory)\CurrentUserTrustedPublisher.dll</CurrentUserTrustedPublisher>
+    <LocalMachineMy>$(OutputDirectory)\LocalMachineMy.dll</LocalMachineMy>
+    <LocalMachineTrustedPublisher>$(OutputDirectory)\LocalMachineTrustedPublisher.dll</LocalMachineTrustedPublisher>
+  </PropertyGroup>
+
+  <Target Name="Setup">
+    <Message Text="Task Assembly: $(TaskAssemblyName)" />
+    <RemoveDir Directories="$(OutputDirectory)" />
+    <MakeDir Directories="$(OutputDirectory)"/>
+    <Copy
+      SourceFiles="$(ReferenceFile);$(ReferenceFile);$(ReferenceFile);$(ReferenceFile)"
+      DestinationFiles="$(CurrentUserMy);$(CurrentUserTrustedPublisher);$(LocalMachineMy);$(LocalMachineTrustedPublisher)" />
+  </Target>
+
+  <Target Name="SignFromCurrentUserMy" DependsOnTargets="Setup">
+    <AuthenticodeSignFile
+      Thumbprint="451E45B009B4ECF0D32E2A4D2D6CA55A6981F9FA"
+      TimestampUrl="http://timestamp.comodoca.com/authenticode"
+      FilePath="$(CurrentUserMy)" />
+  </Target>
+
+  <Target Name="SignFromCurrentUserTrustedPublisher" DependsOnTargets="Setup">
+    <AuthenticodeSignFile
+      Thumbprint="451E45B009B4ECF0D32E2A4D2D6CA55A6981F9FA"
+      TimestampUrl="http://timestamp.comodoca.com/authenticode"
+      FilePath="$(CurrentUserTrustedPublisher)"
+      CertificateStoreName="TrustedPublisher" />
+  </Target>
+
+  <Target Name="SignFromLocalMachineMy" DependsOnTargets="Setup">
+    <AuthenticodeSignFile
+      Thumbprint="451E45B009B4ECF0D32E2A4D2D6CA55A6981F9FA"
+      TimestampUrl="http://timestamp.comodoca.com/authenticode"
+      CertificateStoreLocation="LocalMachine"
+      FilePath="$(LocalMachineMy)" />
+  </Target>
+
+  <Target Name="SignFromLocalMachineTrustedPublisher" DependsOnTargets="Setup">
+    <AuthenticodeSignFile
+      Thumbprint="451E45B009B4ECF0D32E2A4D2D6CA55A6981F9FA"
+      TimestampUrl="http://timestamp.comodoca.com/authenticode"
+      FilePath="$(LocalMachineTrustedPublisher)"
+      CertificateStoreLocation="LocalMachine"
+      CertificateStoreName="TrustedPublisher" />
+  </Target>
+
+</Project>
