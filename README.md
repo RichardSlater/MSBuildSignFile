@@ -1,5 +1,7 @@
 <img style="max-width:100%;" alt="NitriqTeamCity" src="https://raw.github.com/RichardSlater/MSBuildSignFile/master/assets/logo.png">
 
+[![Flattr Sign File MSBuild Task Repository](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=RichardSlater&url=http://github.com/RichardSlater/MSBuildSignFile&title=Sign%20File%20MSBuild%20Task&language=en_GB&tags=github&category=software)
+
 What is this?
 =============
 
